@@ -1,0 +1,96 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_title %} {{title}} {% endblock page_title %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Pipe Diameter (mm) D
+                    <span class="badge badge-primary badge-pill">333.9</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Pipe Diameter (mm) d
+                    <span class="badge badge-primary badge-pill">228.5</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Well Head Pressure (bars)
+                    <span class="badge badge-primary badge-pill">6</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-6">
+            <div class="text-center text-danger">
+                <b>DATA TABLE | {{title}}</b>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-3">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name='mercuryManometer' class="form-control-file border">
+                <button type="submit" class="btn btn-outline-info">Upload CSV</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <table id="example" class="row-border hover order-column" style="width:100%">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Differential Pressure (Hg)</th>
+                <th>Weir Height (cm)</th>
+                <th>Upstream Pressure (bars)</th>
+                <th>Steam Low Rate (t/hr)</th>
+                <th>Corr. Water Flow (t/hr)</th>
+                <th>Mass Flow Rate (t/hr)</th>
+                <th>Stream Enthalpy (t/hr)</th>
+                <th>Combined Enthalpy (kJ/kg)</th>
+                <th>Whp (Psig)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if all_data %}
+            {% for data in all_data %}
+            <tr>
+                <td>{{data.Time}}</td>
+                <td>{{data.Differential_Pressure}}</td>
+                <td>{{data.Weir_Height}}</td>
+                <td>{{data.Upstream_Pressure}}</td>
+                <td>{{data.Steam_flow_rate}}</td>
+                <td>{{data.Corr_Water_flow}}</td>
+                <td>{{data.Mass_Flow_rate}}</td>
+                <td>{{data.Stream_enthalpy}}</td>
+                <td>{{data.combined_enthalpy}}</td>
+                <td>{{data.Whp}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <div class="text-*-center">
+                <strong> No data in the {{title}} database </strong>
+            </div>
+            {% endif %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Time</th>
+                <th>Differential Pressure (Hg)</th>
+                <th>Weir Height (cm)</th>
+                <th>Upstream Pressure (bars)</th>
+                <th>Steam Low Rate (t/hr)</th>
+                <th>Corr. Water Flow (t/hr)</th>
+                <th>Mass Flow Rate (t/hr)</th>
+                <th>Stream Enthalpy (t/hr)</th>
+                <th>Combined Enthalpy (kJ/kg)</th>
+                <th>Whp (Psig)</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% endblock body %}

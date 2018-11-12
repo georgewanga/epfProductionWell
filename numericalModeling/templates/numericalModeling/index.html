@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_title %} {{title}} {% endblock page_title %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-6">
+            <div class="text-center text-danger">
+                <b>DATA TABLE | {{title}}</b>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-3">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name='numericalModeling' class="form-control-file border">
+                <button type="submit" class="btn btn-outline-info">Upload CSV</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid">
+    <table id="example" class="row-border hover order-column" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Flow_Rate</th>
+                <th>Totals</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if all_data %}
+            {% for data in all_data %}
+            <tr>
+                <td>{{data.Date}}</td>
+                <td>{{data.Flow_Rate}}</td>
+                <td>{{data.Totals}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <div class="text-*-center">
+                <strong> No data in the {{title}} database </strong>
+            </div>
+            {% endif %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Date</th>
+                <th>Flow_Rate</th>
+                <th>Totals</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% endblock body %}
